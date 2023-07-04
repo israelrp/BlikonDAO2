@@ -1,0 +1,12 @@
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\bin\Debug\net7.0\DBMongoDDL.deps.json
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\bin\Debug\net7.0\DBMongoDDL.dll
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\bin\Debug\net7.0\DBMongoDDL.pdb
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.csproj.AssemblyReference.cache
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.GeneratedMSBuildEditorConfig.editorconfig
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.AssemblyInfoInputs.cache
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.AssemblyInfo.cs
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.csproj.CoreCompileInputs.cache
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.dll
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\refint\DBMongoDDL.dll
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\DBMongoDDL.pdb
+E:\Users\Optiplex 7050\Documents\tutoriales\MongoDBDLL\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\ref\DBMongoDDL.dll
