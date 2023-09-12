@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Users\\Optiplex 7050\\Documents\\tutoriales\\MongoDBDLL\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {}
+    "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {}
   },
   "projects": {
-    "E:\\Users\\Optiplex 7050\\Documents\\tutoriales\\MongoDBDLL\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {
+    "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Users\\Optiplex 7050\\Documents\\tutoriales\\MongoDBDLL\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
+        "projectUniqueName": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
         "projectName": "BlikonDAO",
-        "projectPath": "E:\\Users\\Optiplex 7050\\Documents\\tutoriales\\MongoDBDLL\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
+        "projectPath": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
         "packagesPath": "C:\\Users\\dang_\\.nuget\\packages\\",
-        "outputPath": "E:\\Users\\Optiplex 7050\\Documents\\tutoriales\\MongoDBDLL\\DBMongoDDL\\DBMongoDDL\\obj\\",
+        "outputPath": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

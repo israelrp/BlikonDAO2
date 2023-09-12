@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QShPIz9ypO/SYQWaFpY7VCUGPoLBVTfsEuks/4G/EYB0kmpy+kapoICMKzlassEtONtqIQLQlulcLtTHXqSmgA==",
+  "dgSpecHash": "P+ACGmQXclyXGY8GdwyNPCMoh2cNxAi/IaXwajIyk5jbU12K93qzsPFyqfSmBOoqsPYvHtf/NbaYaIFuoTqFXA==",
   "success": true,
-  "projectFilePath": "E:\\Users\\Optiplex 7050\\Documents\\tutoriales\\MongoDBDLL\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
+  "projectFilePath": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dang_\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\dang_\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
