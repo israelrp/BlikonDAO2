@@ -13,8 +13,11 @@ namespace DBMongoDDL
     {
         private MongoClient _client;
         private IMongoCollection<Item> _items;
+        private DBSettings _dbSettings;
+        public DBSettings Settings { get { return _dbSettings; } }
         public Administrador(DBSettings dBSettings)
         {
+            _dbSettings = dBSettings;
             _client = new MongoClient(dBSettings.Server);
             var database = _client.GetDatabase(dBSettings.Database);
 
@@ -37,6 +40,7 @@ namespace DBMongoDDL
                 {
                     ReferenceHandler = ReferenceHandler.Preserve
                 };
+                string json= JsonSerializer.Serialize(item.Fields, options);
                 item.Fields = BsonSerializer.Deserialize<object>(item.Fields.ToString());
                 await _items.InsertOneAsync(item);
                 oRespuesta.Mensaje = "Se realizo el registro correctamente.";
@@ -110,8 +114,8 @@ namespace DBMongoDDL
             Response oRespuesta = new();
             try
             {
-                var database = _client.GetDatabase("prueba");
-                var collection = database.GetCollection<Item>("Items");
+                var database = _client.GetDatabase(_dbSettings.Database);
+                var collection = database.GetCollection<Item>(_dbSettings.Collection);
 
                 var builder = Builders<Item>.Filter;
                 List<FilterDefinition<Item>> lstfilter = new();
