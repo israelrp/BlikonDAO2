@@ -11,5 +11,6 @@ namespace BlikonDAO.Models
         public string fieldName { get; set; }
         public string fieldValue { get; set; }
         public string operador { get; set; }
+        public string[] ArrayFieldsValue { get; set; }
     }
 }

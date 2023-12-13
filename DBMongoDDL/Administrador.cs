@@ -109,64 +109,149 @@ namespace DBMongoDDL
             return oRespuesta;
         }
 
-        public async Task<Response> QueryGetAllAppItems(QueryOperators model)
+        //public async Task<Response> QueryGetAllAppItems(QueryOperators model)
+        //{
+        //    Response oRespuesta = new();
+        //    try
+        //    {
+        //        var database = _client.GetDatabase(_dbSettings.Database);
+        //        var collection = database.GetCollection<Item>(_dbSettings.Collection);
+
+        //        var builder = Builders<Item>.Filter;
+        //        List<FilterDefinition<Item>> lstfilter = new();
+        //        FilterDefinition<Item> filter = null;
+        //        foreach (var item in model.lstFieldsQuery)
+        //        {
+        //            if (item.operador == "Eq")
+        //            {
+        //                lstfilter.Add(builder.Eq(item.fieldName, item.fieldValue));
+        //            }
+        //            else if (item.operador == "And")
+        //            {
+        //                lstfilter.Add(builder.And(item.fieldName, item.fieldValue));
+        //            }
+        //            else if (item.operador == "Or")
+        //            {
+        //                lstfilter.Add(builder.Or(item.fieldName, item.fieldValue));
+        //            }
+        //            else if (item.operador == "In")
+        //            {
+        //                lstfilter.Add(builder.In(item.fieldName, item.fieldValue));
+        //            }
+        //            else if (item.operador == "lt")
+        //            {
+        //                lstfilter.Add(builder.Lt(item.fieldName, item.fieldValue));
+        //            }
+        //        }
+
+        //        if (model.LogicOperator == "And")
+        //        {
+        //            filter = builder.And(lstfilter);
+        //        }
+        //        else if (model.LogicOperator == "Or")
+        //        {
+        //            filter = builder.Or(lstfilter);
+        //        }
+        //        else if (model.LogicOperator == "")
+        //        {
+        //            filter = lstfilter.FirstOrDefault();
+        //        }
+
+
+        //        var result = await collection.FindAsync(filter);
+        //        oRespuesta.Data = result;
+        //        oRespuesta.Exito = 1;
+        //    }
+        //    catch(Exception e)
+        //    {
+        //        oRespuesta.Mensaje = "Ocurrió un error al procesar su solicitud: " + e.Message;
+        //    }
+            
+        //    return oRespuesta;
+        //}
+
+        public Response GetQueryItems(QueryOperators model)
         {
             Response oRespuesta = new();
             try
             {
-                var database = _client.GetDatabase(_dbSettings.Database);
-                var collection = database.GetCollection<Item>(_dbSettings.Collection);
-
-                var builder = Builders<Item>.Filter;
-                List<FilterDefinition<Item>> lstfilter = new();
-                FilterDefinition<Item> filter = null;
-                foreach (var item in model.lstFieldsQuery)
+                string jsonQuery = string.Empty;
+                string expression = string.Empty;
+                Char trimChar = ',';
+                foreach (var items in model.lstFieldsQuery)
                 {
-                    if (item.operador == "Eq")
+                    if (items.LogicOperator != "$not" && (!string.IsNullOrEmpty(items.LogicOperator) && items.Fields.Count() < 2))
                     {
-                        lstfilter.Add(builder.Eq(item.fieldName, item.fieldValue));
+                        throw new ArgumentException("si incluye un operador lógico debe contener más de dos expresiones. ");
                     }
-                    else if (item.operador == "And")
+                    expression = string.Empty;
+                    string valor = string.Empty;
+                    foreach (var item in items.Fields)
                     {
-                        lstfilter.Add(builder.And(item.fieldName, item.fieldValue));
+
+                        if (item.operador == "$in" || item.operador == "$nin")
+                        {
+                            string ArrayFields = string.Empty;
+                            ArrayFields = String.Join("','", item.ArrayFieldsValue);
+                            ArrayFields = ArrayFields.TrimEnd(trimChar);
+                            valor = "{ " + item.operador + " : ['" + ArrayFields + "'] }";
+                        }
+                        else if (item.operador == "$regex")
+                        {
+                            valor = "/^" + item.fieldValue + ".*/i ";
+                        }
+                        else
+                        {
+                            valor = "{ " + item.operador + " : '" + item.fieldValue + "' }";
+                        }
+                        if (items.LogicOperator == "$not")
+                        {
+                            valor = "{ $not: " + valor + " }";
+                        }
+                        expression += "{ '" + item.fieldName + "' : " + valor + " },";
                     }
-                    else if (item.operador == "Or")
+                    expression = expression.TrimEnd(trimChar);
+                    if (string.IsNullOrEmpty(items.LogicOperator) || items.LogicOperator == "$not")
                     {
-                        lstfilter.Add(builder.Or(item.fieldName, item.fieldValue));
+                        jsonQuery += expression + ",";
                     }
-                    else if (item.operador == "In")
+                    else
                     {
-                        lstfilter.Add(builder.In(item.fieldName, item.fieldValue));
+                        jsonQuery += "{ " + items.LogicOperator + ": [ " + expression + "] },";
                     }
-                    else if (item.operador == "lt")
-                    {
-                        lstfilter.Add(builder.Lt(item.fieldName, item.fieldValue));
-                    }
+
                 }
 
-                if (model.LogicOperator == "And")
+                jsonQuery = jsonQuery.TrimEnd(trimChar);
+                if (!string.IsNullOrEmpty(model.LogicOperator))
                 {
-                    filter = builder.And(lstfilter);
-                }
-                else if (model.LogicOperator == "Or")
-                {
-                    filter = builder.Or(lstfilter);
-                }
-                else if (model.LogicOperator == "")
-                {
-                    filter = lstfilter.FirstOrDefault();
+                    jsonQuery = "{ " + model.LogicOperator + ": [ " + jsonQuery + "] }";
                 }
 
+                BsonDocument queryDoc = BsonSerializer.Deserialize<BsonDocument>(jsonQuery);
 
-                var result = await collection.FindAsync(filter);
-                oRespuesta.Data = result;
+                string sort = string.Empty;
+                if (model.Sort != null)
+                {
+                    foreach (var s in model.Sort)
+                    {
+                        sort += "'" + s.Field + "':" + s.Value + ",";
+                    }
+                    sort = "{" + sort.TrimEnd(trimChar) + "}";
+                }
+                else
+                {
+                    sort = "{'_id': -1}";
+                }
+
+                oRespuesta.Data= _items.Find(queryDoc).Sort(sort).ToList();
                 oRespuesta.Exito = 1;
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 oRespuesta.Mensaje = "Ocurrió un error al procesar su solicitud: " + e.Message;
             }
-            
             return oRespuesta;
         }
 

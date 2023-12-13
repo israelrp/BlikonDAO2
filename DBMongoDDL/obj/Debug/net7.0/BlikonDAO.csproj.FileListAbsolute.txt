@@ -22,3 +22,16 @@ E:\Users\Optiplex 7050\Documents\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\B
 E:\Users\Optiplex 7050\Documents\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\refint\BlikonDAO.dll
 E:\Users\Optiplex 7050\Documents\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.pdb
 E:\Users\Optiplex 7050\Documents\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\ref\BlikonDAO.dll
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\bin\Debug\net7.0\BlikonDAO.deps.json
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\bin\Debug\net7.0\BlikonDAO.dll
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\bin\Debug\net7.0\BlikonDAO.pdb
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.csproj.AssemblyReference.cache
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.AssemblyInfoInputs.cache
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.AssemblyInfo.cs
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.csproj.CoreCompileInputs.cache
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.sourcelink.json
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.dll
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\refint\BlikonDAO.dll
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\BlikonDAO.pdb
+C:\Users\aleja\OneDrive\Documentos\GitHub\DBMongoDDL\DBMongoDDL\obj\Debug\net7.0\ref\BlikonDAO.dll

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlikonDAO.Models
 {
-    public class QueryOperators
+    public class FieldQueryElements
     {
-        public List<FieldQueryElements> lstFieldsQuery { get; set; }
         public string LogicOperator { get; set; }
-        public List<ItemsSort>? Sort { get; set; }
+        public List<FieldQuery> Fields { get; set; }
     }
 }
