@@ -194,21 +194,21 @@ namespace DBMongoDDL
                             string ArrayFields = string.Empty;
                             ArrayFields = String.Join("','", item.ArrayFieldsValue);
                             ArrayFields = ArrayFields.TrimEnd(trimChar);
-                            valor = "{ " + item.operador + " : ['" + ArrayFields + "'] }";
+                            valor = String.Format("{{ {0} : ['{1}'] }}", item.operador, ArrayFields);
                         }
                         else if (item.operador == "$regex")
                         {
-                            valor = "/^" + item.fieldValue + ".*/i ";
+                            valor = String.Format("/^{0}.*/i", item.fieldValue);
                         }
                         else
                         {
-                            valor = "{ " + item.operador + " : '" + item.fieldValue + "' }";
+                            valor = String.Format("{{ {0} : '{1}' }}", item.operador, item.fieldValue);
                         }
                         if (items.LogicOperator == "$not")
                         {
-                            valor = "{ $not: " + valor + " }";
+                            valor = String.Format("{{ $not: {0} }}", valor);
                         }
-                        expression += "{ '" + item.fieldName + "' : " + valor + " },";
+                        expression += String.Format("{{ '{0}' : {1} }},", item.fieldName, valor);
                     }
                     expression = expression.TrimEnd(trimChar);
                     if (string.IsNullOrEmpty(items.LogicOperator) || items.LogicOperator == "$not")
@@ -217,7 +217,7 @@ namespace DBMongoDDL
                     }
                     else
                     {
-                        jsonQuery += "{ " + items.LogicOperator + ": [ " + expression + "] },";
+                        jsonQuery += String.Format("{{ {0}: [ {1} ] }},", items.LogicOperator, expression);
                     }
 
                 }
@@ -225,7 +225,7 @@ namespace DBMongoDDL
                 jsonQuery = jsonQuery.TrimEnd(trimChar);
                 if (!string.IsNullOrEmpty(model.LogicOperator))
                 {
-                    jsonQuery = "{ " + model.LogicOperator + ": [ " + jsonQuery + "] }";
+                    jsonQuery = String.Format("{{ {0} : [ {1} ] }}", model.LogicOperator, jsonQuery);
                 }
 
                 BsonDocument queryDoc = BsonSerializer.Deserialize<BsonDocument>(jsonQuery);
@@ -235,7 +235,7 @@ namespace DBMongoDDL
                 {
                     foreach (var s in model.Sort)
                     {
-                        sort += "'" + s.Field + "':" + s.Value + ",";
+                        sort += String.Format("'{0}':{1},", s.Field, s.Value);
                     }
                     sort = "{" + sort.TrimEnd(trimChar) + "}";
                 }
