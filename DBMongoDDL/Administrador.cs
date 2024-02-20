@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using BlikonDAO.Models;
-
+using BlikonDAO.Tools;
 namespace DBMongoDDL
 {
     public class Administrador
@@ -109,67 +109,6 @@ namespace DBMongoDDL
             return oRespuesta;
         }
 
-        //public async Task<Response> QueryGetAllAppItems(QueryOperators model)
-        //{
-        //    Response oRespuesta = new();
-        //    try
-        //    {
-        //        var database = _client.GetDatabase(_dbSettings.Database);
-        //        var collection = database.GetCollection<Item>(_dbSettings.Collection);
-
-        //        var builder = Builders<Item>.Filter;
-        //        List<FilterDefinition<Item>> lstfilter = new();
-        //        FilterDefinition<Item> filter = null;
-        //        foreach (var item in model.lstFieldsQuery)
-        //        {
-        //            if (item.operador == "Eq")
-        //            {
-        //                lstfilter.Add(builder.Eq(item.fieldName, item.fieldValue));
-        //            }
-        //            else if (item.operador == "And")
-        //            {
-        //                lstfilter.Add(builder.And(item.fieldName, item.fieldValue));
-        //            }
-        //            else if (item.operador == "Or")
-        //            {
-        //                lstfilter.Add(builder.Or(item.fieldName, item.fieldValue));
-        //            }
-        //            else if (item.operador == "In")
-        //            {
-        //                lstfilter.Add(builder.In(item.fieldName, item.fieldValue));
-        //            }
-        //            else if (item.operador == "lt")
-        //            {
-        //                lstfilter.Add(builder.Lt(item.fieldName, item.fieldValue));
-        //            }
-        //        }
-
-        //        if (model.LogicOperator == "And")
-        //        {
-        //            filter = builder.And(lstfilter);
-        //        }
-        //        else if (model.LogicOperator == "Or")
-        //        {
-        //            filter = builder.Or(lstfilter);
-        //        }
-        //        else if (model.LogicOperator == "")
-        //        {
-        //            filter = lstfilter.FirstOrDefault();
-        //        }
-
-
-        //        var result = await collection.FindAsync(filter);
-        //        oRespuesta.Data = result;
-        //        oRespuesta.Exito = 1;
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        oRespuesta.Mensaje = "Ocurrió un error al procesar su solicitud: " + e.Message;
-        //    }
-            
-        //    return oRespuesta;
-        //}
-
         public Response GetQueryItems(QueryOperators model)
         {
             Response oRespuesta = new();
@@ -178,6 +117,7 @@ namespace DBMongoDDL
                 string jsonQuery = string.Empty;
                 string expression = string.Empty;
                 Char trimChar = ',';
+                SetTypes oSetType = new();
                 foreach (var items in model.lstFieldsQuery)
                 {
                     if (items.LogicOperator != "$not" && (!string.IsNullOrEmpty(items.LogicOperator) && items.Fields.Count() < 2))
@@ -188,13 +128,11 @@ namespace DBMongoDDL
                     string valor = string.Empty;
                     foreach (var item in items.Fields)
                     {
+                        item.fieldValue = oSetType.SetType(item.fieldType, item.fieldValue);
 
                         if (item.operador == "$in" || item.operador == "$nin")
                         {
-                            string ArrayFields = string.Empty;
-                            ArrayFields = String.Join("','", item.ArrayFieldsValue);
-                            ArrayFields = ArrayFields.TrimEnd(trimChar);
-                            valor = String.Format("{{ {0} : ['{1}'] }}", item.operador, ArrayFields);
+                            valor = oSetType.ArraySetType(item.fieldType, item.ArrayFieldsValue, item.operador);
                         }
                         else if (item.operador == "$regex")
                         {
@@ -202,7 +140,7 @@ namespace DBMongoDDL
                         }
                         else
                         {
-                            valor = String.Format("{{ {0} : '{1}' }}", item.operador, item.fieldValue);
+                            valor = String.Format("{{ {0} : {1}  }}", item.operador, item.fieldValue);
                         }
                         if (items.LogicOperator == "$not")
                         {

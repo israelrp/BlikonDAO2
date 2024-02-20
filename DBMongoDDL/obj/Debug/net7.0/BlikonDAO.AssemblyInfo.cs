@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlikonDAO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14e0244dd84143c1d9b7deb73ff9114a32eca186")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("BlikonDAO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BlikonDAO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
