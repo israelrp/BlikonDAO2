@@ -182,7 +182,20 @@ namespace DBMongoDDL
                     sort = "{'_id': -1}";
                 }
 
-                oRespuesta.Data= _items.Find(queryDoc).Sort(sort).ToList();
+                if (model.Funcion is not null)
+                {
+                    BsonDocument querygroup = BsonSerializer.Deserialize<BsonDocument>("{_id : \"$" + model.Funcion[0].Field + "\", countNumberOfDocuments : { $count : { } } }");
+                    List<BsonDocument> bsonDocuments = _items.Aggregate().Match(queryDoc).Group(querygroup).ToList();
+                    List<responseCount> listItems = new();
+                    foreach (var bsonDocument in bsonDocuments)
+                    {
+                        responseCount myObj = BsonSerializer.Deserialize<responseCount>(bsonDocument);
+                        listItems.Add(myObj);
+                    }
+                    oRespuesta.Data = listItems;
+                }
+                else { oRespuesta.Data = _items.Find(queryDoc).Sort(sort).ToList(); }
+
                 oRespuesta.Exito = 1;
 
             }
