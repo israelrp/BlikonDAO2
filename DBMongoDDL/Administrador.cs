@@ -184,7 +184,12 @@ namespace DBMongoDDL
 
                 if (model.Funcion is not null)
                 {
-                    BsonDocument querygroup = BsonSerializer.Deserialize<BsonDocument>("{_id : \"$" + model.Funcion[0].Field + "\", countNumberOfDocuments : { $count : { } } }");
+                    string campos = string.Empty;
+                    foreach (var s in model.Funcion)
+                    {
+                        campos += "\"" + s.Field.Split('.')[1] + "\" : \"$" + s.Field + "\",";
+                    }
+                    BsonDocument querygroup = BsonSerializer.Deserialize<BsonDocument>("{_id : {" + campos.TrimEnd(trimChar) + "}, countNumberOfDocuments : { $count : { } } }");
                     List<BsonDocument> bsonDocuments = _items.Aggregate().Match(queryDoc).Group(querygroup).ToList();
                     List<responseCount> listItems = new();
                     foreach (var bsonDocument in bsonDocuments)
