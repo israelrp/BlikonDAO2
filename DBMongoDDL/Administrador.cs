@@ -7,6 +7,9 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using BlikonDAO.Models;
 using BlikonDAO.Tools;
+using System.Dynamic;
+using System.Reflection;
+
 namespace DBMongoDDL
 {
     public class Administrador
@@ -182,25 +185,102 @@ namespace DBMongoDDL
                     sort = "{'_id': -1}";
                 }
 
-                if (model.Funcion is not null)
-                {
-                    string campos = string.Empty;
-                    foreach (var s in model.Funcion)
-                    {
-                        campos += "\"" + s.Field.Split('.')[1] + "\" : \"$" + s.Field + "\",";
-                    }
-                    BsonDocument querygroup = BsonSerializer.Deserialize<BsonDocument>("{_id : {" + campos.TrimEnd(trimChar) + "}, countNumberOfDocuments : { $count : { } } }");
-                    List<BsonDocument> bsonDocuments = _items.Aggregate().Match(queryDoc).Group(querygroup).ToList();
-                    List<responseCount> listItems = new();
-                    foreach (var bsonDocument in bsonDocuments)
-                    {
-                        responseCount myObj = BsonSerializer.Deserialize<responseCount>(bsonDocument);
-                        listItems.Add(myObj);
-                    }
-                    oRespuesta.Data = listItems;
-                }
-                else { oRespuesta.Data = _items.Find(queryDoc).Sort(sort).ToList(); }
+                string pipeProject = string.Empty;
+                string pipe = string.Empty;
+                string fields = string.Empty;
+                List<string> nombres = new();
 
+                var queryDoc1 = BsonSerializer.Deserialize<BsonDocument>("{ \"$match\" : " + jsonQuery + " }}");
+
+                BsonDocument[] pipeline = new BsonDocument[] { queryDoc1 };
+
+                if (model.Funcion != null)
+                {
+                    var project = model.Funcion.Where(x => x.FunctionName.Equals("project")).FirstOrDefault();
+
+                    foreach (var func in model.Funcion)
+                    {
+                        fields = string.Empty;
+                        switch (func.FunctionName)
+                        {
+                            case "sum":
+                                nombres.Add(func.NewFieldName);
+                                foreach (var exp in func.Expressions)
+                                {
+                                    fields += "\"$fields." + exp.FieldName + "\",";
+                                }
+                                fields = fields.TrimEnd(trimChar);
+                                pipe += "\"" + func.NewFieldName + "\": { \"$sum\": [ " + fields + " ] },";
+                                break;
+                            case "concat":
+                                nombres.Add(func.NewFieldName);
+                                foreach (var exp in func.Expressions)
+                                {
+                                    fields += "\"" + exp.Concat + "\",\"$fields." + exp.FieldName + "\",";
+                                }
+                                fields = fields.TrimEnd(trimChar);
+                                pipe += func.NewFieldName + ": { \"$concat\": [ " + fields + " ] },";
+                                break;
+                            case "dateDiff":
+                                nombres.Add(func.NewFieldName);
+                                pipe += "\"" + func.NewFieldName + "\": { $dateDiff: { startDate: \"$fields." + func.Expressions[0].FieldName + "\", endDate: \"$fields." + func.Expressions[1].FieldName + "\", unit: \"" + func.Unit + "\" }},";
+                                break;
+                            case "GroupCount":
+                                break;
+                        }
+                    }
+
+                    if (project != null)
+                    {
+                        pipe = pipe.TrimEnd(trimChar);
+                        fields = string.Empty;
+                        foreach (var exp in project.Expressions)
+                        {
+                            fields += " \"fields." + exp.FieldName + "\":" + exp.FieldValue + ",";
+                        }
+                        fields = fields.TrimEnd(trimChar);
+                        pipeProject = "{ \"$project\": {" + fields + " ," + pipe + " } }";
+                        pipeProject = pipeProject.TrimEnd(trimChar);
+                        BsonDocument querypipeline = BsonSerializer.Deserialize<BsonDocument>(pipeProject);
+                        pipeline = pipeline.Append(querypipeline).ToArray();
+                    }
+                    else
+                    {
+                        pipeProject = "{ \"$project\": { } }";
+                        nombres.Add(model.Funcion[0].NewFieldName);
+                        string nombreClase = "WebApplication1.Tools.Aggregate" + model.Funcion[0].FunctionName;
+                        Type type = Type.GetType(nombreClase);
+                        object instance = Activator.CreateInstance(type);
+                        MethodInfo method = type.GetMethod("outPutQuery");
+                        object[] parametersArray = new object[] { model.Funcion };
+                        var res = method.Invoke(instance, parametersArray);
+                        pipeline = pipeline.Append(res.ToBsonDocument()).ToArray();
+                    }
+
+                }
+                BsonDocument pipelineSort = BsonSerializer.Deserialize<BsonDocument>(sort);
+                pipeline = pipeline.Append(pipelineSort).ToArray();
+                List<BsonDocument> data = _items.Aggregate<BsonDocument>(pipeline).ToList();
+                List<Item> Listitem = new();
+                foreach (var doc in data)
+                {
+                    Item item = new();
+                    item.Id = doc.GetValue("_id", null).ToString();
+                    item.Fields = new();
+                    var p = doc.GetValue("fields", null).ToBsonDocument();
+                    if (p == null)
+                    {
+                        p = new BsonDocument();
+                    }
+                    foreach (var field in nombres)
+                    {
+                        p.Add(doc.GetElement(field));
+                    }
+                    var pru1 = p.ToJson();
+                    item.Fields = BsonSerializer.Deserialize<ExpandoObject>(p);
+                    Listitem.Add(item);
+                }
+                oRespuesta.Data = Listitem;
                 oRespuesta.Exito = 1;
 
             }
@@ -226,5 +306,6 @@ namespace DBMongoDDL
             }
             return oRespuesta;
         }
+       
     }
 }
