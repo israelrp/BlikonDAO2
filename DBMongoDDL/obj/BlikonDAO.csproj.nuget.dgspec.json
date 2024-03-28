@@ -1,34 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {}
+    "C:\\Users\\aleja\\OneDrive\\Documentos\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {}
   },
   "projects": {
-    "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {
+    "C:\\Users\\aleja\\OneDrive\\Documentos\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
+        "projectUniqueName": "C:\\Users\\aleja\\OneDrive\\Documentos\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
         "projectName": "BlikonDAO",
-        "projectPath": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
-        "packagesPath": "C:\\Users\\dang_\\.nuget\\packages\\",
-        "outputPath": "E:\\Users\\Optiplex 7050\\Documents\\GitHub\\DBMongoDDL\\DBMongoDDL\\obj\\",
+        "projectPath": "C:\\Users\\aleja\\OneDrive\\Documentos\\GitHub\\DBMongoDDL\\DBMongoDDL\\BlikonDAO.csproj",
+        "packagesPath": "C:\\Users\\aleja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aleja\\OneDrive\\Documentos\\GitHub\\DBMongoDDL\\DBMongoDDL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\dang_\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 18.1.config",
+          "C:\\Users\\aleja\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 18.1\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}

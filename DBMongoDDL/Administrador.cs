@@ -212,7 +212,7 @@ namespace DBMongoDDL
                                 break;
                             default:
                                 if (func.NewFieldName != string.Empty) { nombres.Add(func.NewFieldName); }
-                                string nombreClase = "WebApplication1.Tools.Aggregate" + func.FunctionName;
+                                string nombreClase = "BlikonDAO.Tools.Aggregate" + func.FunctionName;
                                 Type type = Type.GetType(nombreClase);
                                 object instance = Activator.CreateInstance(type);
                                 MethodInfo method = type.GetMethod("outPutQuery");
