@@ -396,3 +396,19 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.vs/DBMongoDDL/DesignTimeBuild/.dtbcache.v2
+.vs/DBMongoDDL/v17/.futdcache.v2
+.vs/DBMongoDDL/v17/.suo
+DBMongoDDL/bin/Debug/net7.0/BlikonDAO.dll
+DBMongoDDL/bin/Debug/net7.0/BlikonDAO.pdb
+DBMongoDDL/obj/BlikonDAO.csproj.nuget.dgspec.json
+DBMongoDDL/obj/BlikonDAO.csproj.nuget.g.props
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.assets.cache
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.csproj.AssemblyReference.cache
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.csproj.CoreCompileInputs.cache
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.csproj.FileListAbsolute.txt
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.dll
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.GeneratedMSBuildEditorConfig.editorconfig
+DBMongoDDL/obj/Debug/net7.0/BlikonDAO.pdb
+DBMongoDDL/obj/project.assets.json
+DBMongoDDL/obj/project.nuget.cache
