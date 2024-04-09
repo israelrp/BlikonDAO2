@@ -169,35 +169,20 @@ namespace DBMongoDDL
                     jsonQuery = String.Format("{{ {0} : [ {1} ] }}", model.LogicOperator, jsonQuery);
                 }
 
-                BsonDocument queryDoc = BsonSerializer.Deserialize<BsonDocument>(jsonQuery);
-
                 string sort = string.Empty;
-                if (model.Sort != null)
-                {
-                    foreach (var s in model.Sort)
-                    {
-                        sort += String.Format("'{0}':{1},", s.Field, s.Value);
-                    }
-                    sort = "{" + sort.TrimEnd(trimChar) + "}";
-                }
-                else
-                {
-                    sort = "{'_id': -1}";
-                }
-
                 string pipeProject = string.Empty;
                 string pipe = string.Empty;
                 string fields = string.Empty;
                 List<string> nombres = new();
 
-                var queryDoc1 = BsonSerializer.Deserialize<BsonDocument>("{ \"$match\" : " + jsonQuery + " }}");
+                var queryDoc = BsonSerializer.Deserialize<BsonDocument>("{ \"$match\" : " + jsonQuery + " }}");
 
-                BsonDocument[] pipeline = new BsonDocument[] { queryDoc1 };
+                BsonDocument[] pipeline = new BsonDocument[] { queryDoc };
 
                 if (model.Funcion != null)
                 {
                     var project = model.Funcion.Where(x => x.FunctionName.Equals("project")).FirstOrDefault();
-
+                    model.Funcion.Remove(project);
                     foreach (var func in model.Funcion)
                     {
                         fields = string.Empty;
@@ -225,7 +210,15 @@ namespace DBMongoDDL
                                 nombres.Add(func.NewFieldName);
                                 pipe += "\"" + func.NewFieldName + "\": { $dateDiff: { startDate: \"$fields." + func.Expressions[0].FieldName + "\", endDate: \"$fields." + func.Expressions[1].FieldName + "\", unit: \"" + func.Unit + "\" }},";
                                 break;
-                            case "GroupCount":
+                            default:
+                                if (func.NewFieldName != string.Empty) { nombres.Add(func.NewFieldName); }
+                                string nombreClase = "BlikonDAO.Tools.Aggregate" + func.FunctionName;
+                                Type type = Type.GetType(nombreClase);
+                                object instance = Activator.CreateInstance(type);
+                                MethodInfo method = type.GetMethod("outPutQuery");
+                                object[] parametersArray = new object[] { func };
+                                var res = method.Invoke(instance, parametersArray);
+                                pipeline = pipeline.Append(res.ToBsonDocument()).ToArray();
                                 break;
                         }
                     }
@@ -244,22 +237,9 @@ namespace DBMongoDDL
                         BsonDocument querypipeline = BsonSerializer.Deserialize<BsonDocument>(pipeProject);
                         pipeline = pipeline.Append(querypipeline).ToArray();
                     }
-                    else
-                    {
-                        pipeProject = "{ \"$project\": { } }";
-                        nombres.Add(model.Funcion[0].NewFieldName);
-                        string nombreClase = "WebApplication1.Tools.Aggregate" + model.Funcion[0].FunctionName;
-                        Type type = Type.GetType(nombreClase);
-                        object instance = Activator.CreateInstance(type);
-                        MethodInfo method = type.GetMethod("outPutQuery");
-                        object[] parametersArray = new object[] { model.Funcion };
-                        var res = method.Invoke(instance, parametersArray);
-                        pipeline = pipeline.Append(res.ToBsonDocument()).ToArray();
-                    }
 
                 }
-                BsonDocument pipelineSort = BsonSerializer.Deserialize<BsonDocument>(sort);
-                pipeline = pipeline.Append(pipelineSort).ToArray();
+
                 List<BsonDocument> data = _items.Aggregate<BsonDocument>(pipeline).ToList();
                 List<Item> Listitem = new();
                 foreach (var doc in data)
