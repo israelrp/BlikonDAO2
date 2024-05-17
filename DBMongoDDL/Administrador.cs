@@ -46,6 +46,7 @@ namespace DBMongoDDL
                 string json= JsonSerializer.Serialize(item.Fields, options);
                 item.Fields = BsonSerializer.Deserialize<object>(item.Fields.ToString());
                 await _items.InsertOneAsync(item);
+                oRespuesta.Data = item;
                 oRespuesta.Mensaje = "Se realizo el registro correctamente.";
                 oRespuesta.Exito = 1;
             }
